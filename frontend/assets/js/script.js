@@ -618,7 +618,7 @@ if (form) {
     e.preventDefault();
     const email = document.getElementById("adminEmail").value;
     const password = document.getElementById("adminPassword").value;
-    const response = await fetch("http://localhost:5000/api/admin/login", {
+    const response = await fetch("/api/admin/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -678,7 +678,7 @@ if (enrollmentForm) {
 
       request_type: requestType
     };
-    const response = await fetch("http://localhost:5000/api/enroll", {
+    const response = await fetch("/api/enroll", {
     method: "POST",
     headers: {
         "Content-Type": "application/json"
@@ -711,7 +711,7 @@ if (enrollmentTableBody) {
 
 async function loadDashboardStats() {
     try {
-        const response = await fetch("http://localhost:5000/api/dashboard/stats");
+        const response = await fetch("/api/dashboard/stats");
         const stats = await response.json();
         document.getElementById("totalEnrollments").textContent = stats.total;
         document.getElementById("pendingEnrollments").textContent = stats.pending;
@@ -770,7 +770,7 @@ async function loadEnrollments() {
   loader.style.display = "flex";
   enrollmentTableBody.style.display = "none";
   try {
-    const response = await fetch("http://localhost:5000/api/enrollments");
+    const response = await fetch("/api/enrollments");
     const enrollments = await response.json();
     allEnrollments = enrollments;
 
@@ -789,7 +789,7 @@ document.addEventListener("change", async (e) => {
   if (!e.target.classList.contains("admin-status-select")) return;
     const id = e.target.dataset.id;
     const status = e.target.value;
-    const response = await fetch(`http://localhost:5000/api/enrollments/${id}/status`, {
+    const response = await fetch(`/api/enrollments/${id}/status`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json"
@@ -819,7 +819,7 @@ let editingEnrollmentId = null;
 document.addEventListener("click", async (e) => {
     if (!e.target.classList.contains("editEnrollmentBtn")) return;
     editingEnrollmentId = e.target.dataset.id;
-    const response = await fetch(`http://localhost:5000/api/enrollments/${editingEnrollmentId}`);
+    const response = await fetch(`/api/enrollments/${editingEnrollmentId}`);
     const student = await response.json();
     document.getElementById("editEmail").value = student.email || "";
     document.getElementById("editStudentName").value = student.student_name || "";
@@ -870,7 +870,7 @@ document.addEventListener("click", async (e) => {
     if (!result.isConfirmed) return;
     const id = e.target.dataset.id;
     const response = await fetch(
-        `http://localhost:5000/api/enrollments/${id}`,
+        `/api/enrollments/${id}`,
         {
             method: "DELETE"
         }
@@ -896,7 +896,7 @@ document.addEventListener("click", async (e) => {
 document.addEventListener("click", async (e) => {
   if (!e.target.classList.contains("viewEnrollmentBtn")) return;
   const id = e.target.dataset.id;
-  const response = await fetch(`http://localhost:5000/api/enrollments/${id}`);
+  const response = await fetch(`/api/enrollments/${id}`);
   const student = await response.json();
   const content = document.getElementById("viewEnrollmentContent");
   content.innerHTML = `
@@ -983,7 +983,7 @@ if (editEnrollmentForm) {
             status: document.getElementById("editStatus").value
         };
         const response = await fetch(
-            `http://localhost:5000/api/enrollments/${editingEnrollmentId}`,
+            `/api/enrollments/${editingEnrollmentId}`,
             {
                 method: "PUT",
                 headers: {
@@ -1039,7 +1039,7 @@ if (contactForm) {
             message: contactForm.message.value
         };
         try {
-            const response = await fetch("http://localhost:5000/api/contact", {
+            const response = await fetch("/api/contact", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json"
