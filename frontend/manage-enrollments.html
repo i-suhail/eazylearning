@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Enrollments | Easy Learning</title>
+  <meta name="description" content="Easy Learning admin enrollment management frontend UI.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="admin-panel-body">
+  <div class="admin-panel-page">
+    <header class="admin-panel-topbar">
+      <nav class="admin-top-links">
+        <a href="admin-dashboard.html" class="admin-panel-logo"><img src="assets/images/logo-Navbar.png" alt="Easy Learning"></a>
+        <a href="index.html">Public Pages</a>
+        <span class="active">Manage Enrollments</span>
+      </nav>
+      <div class="admin-user-chip">
+        <span></span><div><strong>Welcome Back, Admin</strong><small>Administrator</small></div>
+      </div>
+    </header>
+    <main class="admin-panel-main">
+      <section class="admin-page-heading"><h1>Manage Enrollments</h1><p>Dashboard › Manage Enrollments</p></section>
+
+      <section class="admin-stat-grid">
+        <article><span class="purple">TE</span><div><p>Total Enrollments</p><h2 id="totalEnrollments"></h2></div></article>
+        <article><span class="orange">PA</span><div><p>Pending Approvals</p><h2 id="pendingEnrollments"></h2></div></article>
+        <article><span class="green">AS</span><div><p>Approved Enrollments</p><h2 id="approvedEnrollments"></h2></div></article>
+        <article><span class="blue">DR</span><div><p>Demo Bookings</p><h2 id="demoEnrollments"></h2></div></article>
+      </section>
+
+      <section class="admin-panel-card admin-filter-panel">
+        <label>Search<input type="search" id="searchEnrollment" placeholder="Search by student or parent name..."></label>
+        <label>Curriculum<select><option>All Curriculums</option><option>CBSE</option><option>ICSE</option><option>IB</option><option>IGCSE</option><option>State Board</option><option>UK</option><option>Canadian</option></select></label>
+        <label>Class<select><option>All Classes</option><option>Class 1</option><option>Class 2</option><option>Class 3</option><option>Class 4</option><option>Class 5</option><option>Class 6</option><option>Class 7</option><option>Class 8</option><option>Class 9</option><option>Class 10</option><option>Class 12</option><option>Class 11</option></select></label>
+        <label>Learning Mode<select><option>All Modes</option><option>Online</option><option>Offline</option><option>Individual</option></select></label>
+        <label>Status<select><option>All Status</option><option>Pending</option><option>Approved</option><option>Rejected</option><option>Demo Booked</option></select></label>
+        <div class="admin-filter-actions"><button type="button">Clear Filter</button><button type="button" class="primary">Apply Filter</button></div>
+      </section>
+
+      <section class="admin-panel-card admin-table-card admin-wide-table">
+        <div class="admin-card-heading"><h2>Enrollment List</h2></div>
+        <div id="tableLoader" class="table-loader">
+        <div class="loader"></div>
+          <p>Loading enrollments...</p>
+        </div>        
+        <table class="admin-table">
+          <thead><tr><th>#</th><th>Student Name</th><th>Parent Name</th><th>Curriculum</th><th>Class</th><th>Subjects</th><th>Learning Mode</th><th>Type</th><th>Contact Number</th><th>Enrollment Date</th><th>Status</th><th>View</th><th>Edit</th><th>Delete</th></tr></thead>
+          <tbody id="enrollmentTableBody"></tbody>
+        </table>
+        <div class="admin-table-footer" id="tablePagination" style="display: none;"><span>Showing 1 to 5 of 248 entries</span><div><button>‹</button><button class="active">1</button><button>2</button><button>3</button><button>›</button></div></div>
+      </section>
+    </main>
+  </div>
+
+  <div class="admin-modal" id="viewEnrollmentModal" hidden>
+    <div class="admin-modal-content view-modal">
+      <div class="admin-modal-header">
+        <h2>Student Enrollment Details</h2>
+        <button type="button" class="admin-modal-close">&times;</button>
+      </div>
+      <div class="admin-modal-body" id="viewEnrollmentContent"></div>
+    </div>
+  </div>
+  <div class="admin-modal" id="enrollmentEditModal" hidden>
+    <div class="admin-modal-content view-modal">  
+      <div class="admin-modal-header">
+        <h2>✏️ Edit Enrollment</h2>
+        <button type="button" class="admin-modal-close">&times;</button>
+      </div>
+      <form id="editEnrollmentForm">
+        <div class="view-grid">
+          <section class="view-card">
+            <h3>👤 Student Information</h3>
+            <label>Student Name
+              <input type="text" id="editStudentName">
+            </label>
+            <label>DOB
+              <input type="date" id="editDob">
+            </label>
+            <label>Gender
+              <select id="editGender">
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+              </select>
+            </label>  
+            <label>School Name
+              <input type="text" id="editSchool">
+            </label>  
+          </section>
+          <section class="view-card">
+            <h3>👨‍👩‍👧 Parent Information</h3>
+            <label>Parent Name
+              <input type="text" id="editParentName">
+            </label>
+            <label>Relationship
+              <input type="text" id="editRelationship">
+            </label>
+            <label>Mobile
+              <input type="text" id="editMobile">
+            </label>
+            <label>WhatsApp
+              <input type="text" id="editWhatsapp">
+            </label>
+            <label>Email
+              <input type="email" id="editEmail">
+            </label>
+            <label>City
+              <input type="text" id="editCity">
+            </label>
+          </section>
+          <div class="bottom-grid">
+            <section class="view-card">
+              <h3>📚 Academic Details</h3>
+              <label>Class
+                <input type="text" id="editClass">
+              </label>
+              <label>Curriculum
+                <input type="text" id="editCurriculum">
+              </label>
+              <label>Learning Mode
+                <input type="text" id="editLearningMode">
+              </label>
+              <label>Status
+                <select id="editStatus">
+                  <option>Pending</option>
+                  <option>Approved</option>
+                  <option>Rejected</option>
+                  <option>Demo Scheduled</option>
+                </select>
+              </label>
+              <label>Request Type
+                <select id="editRequestType">
+                  <option>Enrollment</option>
+                  <option>Demo</option>
+                </select>
+              </label>
+              <label>Subjects
+                <input type="text" id="editSubjects">
+              </label>
+            </section>
+            <section class="view-card">
+              <h3>💬 Message</h3>
+              <textarea id="editMessage" rows="12" style="width:100%;resize:vertical;"></textarea>
+            </section>
+          </div>
+        </div>
+        <div class="edit-modal-actions">
+          <button type="button" class="btn btn-secondary admin-modal-close">
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary">
+            Save Changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="assets/js/script.js"></script>
+</body>
+</html>
