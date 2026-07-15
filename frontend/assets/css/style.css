@@ -3669,8 +3669,6 @@ h3{
 }
 
 .admin-panel-logo {
-  /* align-items: center; */
-  /* border-bottom: 1px solid rgba(255, 255, 255, 0.14); */
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -3790,13 +3788,9 @@ h3{
 
 .admin-stat-grid {
   display: grid;
-  gap: 22px;
+  gap: 16px;
+  margin-bottom: 18px;
   grid-template-columns: repeat(4, 1fr);
-  margin-bottom: 24px;
-}
-
-.admin-stat-grid.admin-three {
-  grid-template-columns: repeat(3, 1fr);
 }
 
 .admin-stat-grid article,
@@ -4467,12 +4461,13 @@ h3{
 .admin-top-links {
   align-items: center;
   display: flex;
-  gap: clamp(24px, 4vw, 62px);
+  gap: 6px;
   height: 100%;
 }
 
 .admin-top-links a {
   align-items: center;
+  justify-content: left;
   color: var(--navy);
   display: inline-flex;
   font-size: 0.94rem;
@@ -4490,10 +4485,6 @@ h3{
   width: min(19vw, 248px);
   min-width: 218px;
   padding: 18px 14px;
-}
-
-.admin-panel-logo img {
-  max-width: 184px;
 }
 
 .admin-panel-logo span {
@@ -4531,21 +4522,12 @@ h3{
   margin-bottom: 18px;
 }
 
-.admin-page-heading h1 {
-  font-size: clamp(1.55rem, 2vw, 2rem);
-}
-
 .admin-page-heading p,
 .admin-table,
 .admin-panel-card p,
 .admin-stat-grid article p,
 .admin-user-chip small {
   font-size: 0.82rem;
-}
-
-.admin-stat-grid {
-  gap: 16px;
-  margin-bottom: 18px;
 }
 
 .admin-stat-grid article,
@@ -4758,37 +4740,66 @@ h3{
     grid-template-columns: 1fr;
   }
 
-  .admin-top-links {
-    gap: 22px;
+  .admin-panel-topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:10px 14px;
+    gap:10px;
+}
+
+  .admin-panel-logo img{
+    width: 120px;
+    height: auto;
   }
+
+.admin-top-links{
+    flex:1;
+    display:flex;
+    justify-content:center;
+}
+
+.admin-top-links a{
+    font-size:12px;
+    font-weight:600;
+}
+
+.admin-user-chip{
+    flex:0 0 auto;
+    gap:6px;
+}
+
+.admin-user-chip span{
+    width:30px;
+    height:30px;
+}
+
+.admin-user-chip strong{
+    font-size:11px;
+}
+
+.admin-user-chip small{
+    display:none;
+}
+
+.admin-stat-grid article p {
+  font-size: 0.7rem;
+}
+
+.admin-stat-grid article h2 {
+  font-size: 1.33rem;
+}
+.admin-page-heading h1 {
+  font-size: 1.45rem;
+}
+.admin-page-heading p {
+  font-size: 0.75rem;
+}
+
 }
 
 
 /* Admin Enrollment Study Pages - July 2026 */
-.admin-sidebar-toggle {
-  align-items: center;
-  background: var(--navy);
-  border: 0;
-  border-radius: 10px;
-  box-shadow: 0 10px 22px rgba(22, 58, 112, 0.16);
-  cursor: pointer;
-  display: none;
-  flex-direction: column;
-  gap: 4px;
-  height: 42px;
-  justify-content: center;
-  padding: 0;
-  width: 42px;
-}
-
-.admin-sidebar-toggle span {
-  background: var(--white);
-  border-radius: 999px;
-  display: block;
-  height: 2px;
-  transition: transform 220ms ease, opacity 220ms ease;
-  width: 18px;
-}
 
 .admin-panel-body.admin-sidebar-open .admin-sidebar-toggle span:nth-child(1) {
   transform: translateY(6px) rotate(45deg);
@@ -5123,13 +5134,27 @@ h3{
 }
 
 @media (max-width: 640px) {
-  .admin-filter-panel,
   .materials-filter-panel,
   .admin-detail-grid,
   .admin-modal-form {
     grid-template-columns: 1fr;
   }
+  .admin-filter-panel{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:12px;
+  }
+  .admin-filter-panel label{
+    font-size:12px;
+    font-weight:600;
+  }
 
+  .admin-filter-panel input,
+  .admin-filter-panel select{
+    height:42px;
+    font-size:13px;
+    padding:0 12px;
+  }
   .admin-table-footer {
     align-items: flex-start;
     flex-direction: column;
@@ -5846,7 +5871,8 @@ h3{
     max-width:1050px;
     width:95%;
     border-radius:18px;
-    padding:28px;
+    padding:8px;
+    margin-top: 42px;
 }
 
 #enrollmentEditModal .view-grid{
@@ -5857,7 +5883,7 @@ h3{
     background:#ffffff;
     border:1px solid #E6EBF2;
     border-radius:16px;
-    padding:22px;
+    padding:16px;
     box-shadow:0 8px 24px rgba(0,0,0,.05);
 }
 
@@ -5884,14 +5910,10 @@ h3{
 
     width:100%;
     padding:12px 14px;
-
     border:1px solid #D6DCE8;
     border-radius:12px;
-
     background:#FAFBFD;
-
     font-size:.92rem;
-
     transition:.25s;
 }
 
@@ -5949,4 +5971,230 @@ h3{
     justify-content:flex-end;
     gap:15px;
     margin-top:25px;
+}
+/* 15/7 */
+@media (max-width:640px){
+
+.admin-top-links span.active{
+    display:none;
+}
+
+}
+@media (max-width:640px){
+
+.admin-stat-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.admin-stat-grid article{
+    min-width:0;
+}
+
+.admin-stat-grid article{
+    grid-template-columns:42px 1fr;
+    gap:8px;
+    padding:12px;
+    min-height:88px;
+    align-items:center;
+}
+
+.admin-stat-grid article>span{
+    width:42px;
+    height:42px;
+    font-size:13px;
+    border-radius:12px;
+}
+
+.admin-stat-grid h2{
+    font-size:1.45rem;
+    line-height:1;
+    margin-top:2px;
+}
+
+.admin-stat-grid p{
+    font-size:.68rem;
+    line-height:1.2;
+    font-weight:700;
+}
+.admin-stat-grid a{
+    display:none;
+}
+}
+@media (max-width:640px){
+.admin-filter-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+}
+
+/* Looking goo till here */
+
+/* ==========================================================
+   MANAGE ENROLLMENTS MODALS - MOBILE RESPONSIVE
+   ========================================================== */
+
+@media (max-width:768px){
+
+    /* Overlay */
+    .admin-modal{
+        padding:12px;
+        align-items:center;
+        justify-content:center;
+        overflow-y:auto;
+    }
+
+    /* Popup */
+    .admin-modal-content.view-modal{
+        width:100%;
+        max-width:100%;
+        max-height:92vh;
+        overflow:hidden;
+        border-radius:16px;
+        display:flex;
+        flex-direction:column;
+    }
+
+    /* Header */
+    .admin-modal-header{
+        padding:16px 12px;
+        border-radius: 16px;
+        margin-bottom: 8px;
+        margin-top: 8px;
+        flex-shrink:0;
+        position:sticky;
+        top:0;
+        background:#fff;
+        z-index:5;
+        border-bottom:1px solid #E7ECF5;
+    }
+
+    .admin-modal-header h2{
+        font-size: 16px;
+        line-height: 1.3;
+    }
+
+    .admin-modal-close{
+        width:34px;
+        height:34px;
+        font-size:22px;
+        flex-shrink:0;
+    }
+
+    /* Body */
+    .admin-modal-body{
+        flex:1;
+        overflow-y:auto;
+        padding:16px;
+        overflow-x:hidden;
+    }
+
+    /* Edit form */
+    #editEnrollmentForm{
+        overflow-y:auto;
+        overflow-x:hidden;
+        padding:0;
+        flex:1;
+    }
+
+    /* Main Grid */
+    .view-grid{
+        display:grid;
+        grid-template-columns:1fr !important;
+        gap:16px;
+    }
+
+    .bottom-grid{
+        display:grid;
+        grid-template-columns:1fr !important;
+        gap:16px;
+    }
+
+    /* Cards */
+    .view-card{
+        padding:16px;
+        border-radius:14px;
+    }
+
+    .view-card h3{
+        font-size:1rem;
+        margin-bottom:14px;
+    }
+
+    /* Labels */
+    .view-card label, #editEnrollmentForm label{
+        display:block;
+        font-size:.7rem;
+        margin-bottom: 6px;
+    }
+
+    /* Inputs */
+    .view-card select,
+    .view-card textarea{
+        width:100%;
+        font-size:.88rem;
+        min-height:42px;
+        margin-top:6px;
+        padding:10px 12px;
+    }
+    .view-card input, #editEnrollmentForm input{
+        width:100%;
+        font-size: 12px;
+        min-height:36px;
+        margin-top:6px;
+        padding:10px 12px;
+    }
+    .view-card textarea{
+        min-height:120px;
+    }
+
+    /* View Details rows */
+    .detail-row{
+        display:grid;
+        grid-template-columns:90px 1fr;
+        gap:10px;
+        padding:10px 0;
+        font-size:.85rem;
+    }
+
+    .detail-row strong{
+        word-break:break-word;
+    }
+
+    /* Buttons */
+    .edit-modal-actions{
+      display:flex;
+      flex-direction:row;
+      gap:10px;
+      margin-top:18px;
+      padding:16px;
+    }
+
+    .edit-modal-actions .btn{
+      flex: 1;  
+      min-height:44px;
+      font-size:.88rem;
+    }
+    .admin-modal-content.view-modal{
+    width:96vw;
+    max-width:96vw;
+    height:90vh;
+    max-height:90vh;
+    overflow:hidden;
+    border-radius:16px;
+    display:flex;
+    flex-direction:column;
+}
+.admin-filter-actions button {
+  font-size: 12px;
+}
+/* #enrollmentEditForm label {
+  font-size: 12px;
+}
+#enrollmentEditForm input {
+  font-size: 10px;
+  padding: 8px 10px;
+} */
 }
