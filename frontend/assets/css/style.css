@@ -224,14 +224,25 @@ h3{
   z-index: -1;
 }
 
-.eyebrow {
-  color: var(--emerald);
-  display: inline-flex;
-  font-size: 0.78rem;
-  font-weight: 900;
+.hero .eyebrow {
   letter-spacing: 0;
-  margin-bottom: 14px;
-  text-transform: uppercase;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  color:var(--emerald);
+  font-family:"Newsreader",sans-serif;
+  /* font-family:"Playfair Display",sans-serif; */
+  /* font-family:"Roboto Slab",sans-serif; */
+  font-size: 0.89rem;
+  font-weight: 500;
+  letter-spacing: .02em;
+  text-transform:uppercase;
+  margin-bottom:14px;
 }
 
 .hero h1 {
@@ -1040,6 +1051,12 @@ h3{
   .float-btn {
     height: 50px;
     width: 50px;
+  }
+
+  .eyebrow{
+    font-size: 0.74rem;
+    letter-spacing: 0.03em;
+    font-weight: 600;
   }
 }
 
