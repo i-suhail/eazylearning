@@ -37,6 +37,7 @@ app.post("/api/contact", async (req, res) => {
     try {
         const {
           name,
+          phone,
           email,
           message
         } = req.body;
@@ -47,6 +48,7 @@ app.post("/api/contact", async (req, res) => {
             html: `
             <h2>📩 New Contact Form Submission</h2>
             <p><strong>Name:</strong> ${name}</p>
+            <p><strong>Phone:</strong> ${phone || "Not Provided"}</p>
             <p><strong>Email:</strong> ${email || "Not Provided"}</p>
             <hr>
             <p><strong>Message:</strong></p>

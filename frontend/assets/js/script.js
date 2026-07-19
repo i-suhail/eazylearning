@@ -687,12 +687,75 @@ if (enrollmentForm) {
     });
     const data = await response.json();
     if (data.success) {
-      Swal.fire({
-      icon: "success",
-      title: "Enrollment Submitted!",
-      text: "Thank you. Our team will contact you soon.",
-      confirmButtonColor: "#163A70"
-    });
+      const whatsappNumber = "918700014606"; // Client's number
+      const whatsappMessage = `*NEW ${requestType.toUpperCase()} REQUEST*
+       *Student Details*
+      ━━━━━━━━━━━━━━━━━━
+       Name : ${enrollmentData.student_name}
+       DOB : ${enrollmentData.dob}
+       Gender : ${enrollmentData.gender}
+       School : ${enrollmentData.school_name}
+       City : ${enrollmentData.city}
+
+       *Parent Details*
+      ━━━━━━━━━━━━━━━━━━
+       Parent_Name : ${enrollmentData.parent_name}
+       Relationship : ${enrollmentData.relationship}
+       Mobile : ${enrollmentData.mobile}
+       WhatsApp : ${enrollmentData.whatsapp}
+       Email : ${enrollmentData.email}
+
+       *Academic Details*
+      ━━━━━━━━━━━━━━━━━━
+       Class : ${enrollmentData.class}
+       Curriculum : ${enrollmentData.curriculum}
+       Learning Mode : ${enrollmentData.learning_mode}
+       Subjects : ${enrollmentData.subjects.join(", ")}
+
+       *Message*
+      ━━━━━━━━━━━━━━━━━━
+      ${enrollmentData.message || "No Message"}
+
+      ━━━━━━━━━━━━━━━━━━
+      Submitted via Eazy Learning Website`;
+      await Swal.fire({
+        icon: "success",
+        title: "Enrollment Saved Successfully!",
+        html: `
+            <p style="margin-bottom:15px;">
+                Your enrollment has been saved successfully.
+            </p>
+
+            <p style="margin-bottom:0;">
+                <strong>Please send your enrollment details on WhatsApp to complete your enrollment process.</strong>
+            </p>
+        `,
+        confirmButtonText: "Send Details on WhatsApp",
+        confirmButtonColor: "#25D366",
+
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        allowEnterKey: true,
+
+        showCancelButton: false,
+
+        didOpen: () => {
+            const popup = Swal.getPopup();
+
+            // Hide the top-right close button if it exists
+            const closeBtn = popup.querySelector(".swal2-close");
+            if (closeBtn) closeBtn.style.display = "none";
+        }
+      });
+      const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+      // Give the browser a moment to launch WhatsApp
+      const whatsappWindow = window.open(whatsappURL, "_blank");
+      if (whatsappWindow) {
+        setTimeout(() => {
+          window.location.reload();
+        }, 300);
+      }
+      requestType = "Enrollment";
     } else {
       Swal.fire({
         icon: "error",
@@ -1035,6 +1098,7 @@ if (contactForm) {
         e.preventDefault();
         const formData = {
             name: contactForm.name.value,
+            phone: contactForm.phone.value,
             email: contactForm.email.value,
             message: contactForm.message.value
         };
