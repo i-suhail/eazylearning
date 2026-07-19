@@ -1006,6 +1006,11 @@ h3{
     flex-direction: column;
     gap: 12px;
   }
+
+  .learning-mode-strip article {
+    padding: 4px;
+    gap: 8px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1116,15 +1121,6 @@ h3{
   text-align: center;
   transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
 }
-/* 
-.curriculum-card img {
-   width:60px;
-    height:60px;
-    object-fit:contain;
-    display:block;
-    margin:0 auto 14px;
-} */
-
 .curriculum-card:hover,
 .curriculum-card.is-selected {
   border-color: rgba(245, 181, 18, 0.78);
@@ -1345,7 +1341,7 @@ h3{
 .learning-mode-strip {
   display: grid;
   gap: 24px;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   margin-bottom: 72px;
 }
 
@@ -1373,8 +1369,6 @@ h3{
 }
 
 .learning-mode-strip .mini-illustration img {
-  /* width:100%; */
-  /* height:100%; */
   object-fit: cover;
   display:block;
 }

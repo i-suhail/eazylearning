@@ -1112,13 +1112,31 @@ if (contactForm) {
             });
             const data = await response.json();
             if (data.success) {
-                Swal.fire({
-                    icon: "success",
-                    title: "Message Sent!",
-                    text: "Thank you. We'll get back to you soon."
-                });
-                contactForm.reset();
-            } else {
+              const whatsappNumber = "918700014606"; // Client's number
+              const whatsappMessage = ` NEW CONTACT ENQUIRY
+               Name: ${formData.name}
+               Phone: ${formData.phone}
+               Email: ${formData.email || "Not Provided"}
+               Message:
+              ${formData.message}`;
+              await Swal.fire({
+                  icon: "success",
+                  title: "Message Sent Successfully!",
+                  html: `
+                      Your enquiry has been sent.<br><br>
+                      Please send the same details on WhatsApp for a quicker response.
+                  `,
+                  confirmButtonText: "Send Details on WhatsApp",
+                  allowOutsideClick: false,
+                  allowEscapeKey: false,
+                  showCancelButton: false
+              });
+              const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+              const whatsappWindow = window.open(whatsappURL, "_blank");
+              if (whatsappWindow) {
+                  contactForm.reset();
+              }
+          } else {
                 Swal.fire({
                     icon: "error",
                     title: "Oops!",
