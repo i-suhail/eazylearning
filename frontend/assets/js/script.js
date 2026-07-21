@@ -687,7 +687,7 @@ if (enrollmentForm) {
     });
     const data = await response.json();
     if (data.success) {
-      const whatsappNumber = "918700014606"; // Client's number
+      const whatsappNumber = "919962588807"; // Client's number
       const whatsappMessage = `*NEW ${requestType.toUpperCase()} REQUEST*
        *Student Details*
       ━━━━━━━━━━━━━━━━━━
@@ -767,6 +767,8 @@ if (enrollmentForm) {
 }
 const enrollmentTableBody = document.getElementById("enrollmentTableBody");
 let allEnrollments = [];
+let currentPage = 1;
+const rowsPerPage = 15;
 if (enrollmentTableBody) {
   loadDashboardStats();
   loadEnrollments();
@@ -787,10 +789,13 @@ async function loadDashboardStats() {
 
 function renderEnrollments(enrollments) {
   enrollmentTableBody.innerHTML = "";
-  enrollments.forEach((student, index) => {
+  const start = (currentPage - 1) * rowsPerPage;
+  const end = start + rowsPerPage;
+  const pageData = enrollments.slice(start, end);
+  pageData.forEach((student, index) => {
     enrollmentTableBody.innerHTML += `
     <tr>
-      <td>${index + 1}</td>
+      <td>${start + index + 1}</td>
       <td>${student.student_name}</td>
       <td>${student.parent_name}</td>
       <td>${student.curriculum}</td>
@@ -843,11 +848,27 @@ async function loadEnrollments() {
     }
     loader.style.display = "none";
     enrollmentTableBody.style.display = "";
-    renderEnrollments(enrollments);
+    allEnrollments = enrollments;
+    const totalPages = Math.ceil(allEnrollments.length / rowsPerPage);
+    pagination.innerHTML = "";
+    for (let i = 1; i <= totalPages; i++) {
+      pagination.innerHTML += `
+        <button class="${i === currentPage ? "is-active" : ""}">
+          ${i}
+        </button>
+      `;
+    }
+    renderEnrollments(allEnrollments);
   } catch (error) {
     console.error(error);
   }
 }
+const pagination = document.getElementById("tablePagination");
+pagination?.addEventListener("click", (e) => {
+  if (!e.target.matches("button")) return;
+  currentPage = Number(e.target.textContent);
+  renderEnrollments(allEnrollments);
+});
 document.addEventListener("change", async (e) => {
   if (!e.target.classList.contains("admin-status-select")) return;
     const id = e.target.dataset.id;
@@ -1112,7 +1133,7 @@ if (contactForm) {
             });
             const data = await response.json();
             if (data.success) {
-              const whatsappNumber = "918700014606"; // Client's number
+              const whatsappNumber = "919962588807"; // Client's number
               const whatsappMessage = ` NEW CONTACT ENQUIRY
                Name: ${formData.name}
                Phone: ${formData.phone}
