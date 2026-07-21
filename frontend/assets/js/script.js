@@ -1117,6 +1117,9 @@ const contactForm = document.getElementById("contactForm");
 if (contactForm) {
     contactForm.addEventListener("submit", async (e) => {
         e.preventDefault();
+        const submitBtn = contactForm.querySelector("button[type='submit']");
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Submitting...";
         const formData = {
             name: contactForm.name.value,
             phone: contactForm.phone.value,
@@ -1156,6 +1159,8 @@ if (contactForm) {
               const whatsappWindow = window.open(whatsappURL, "_blank");
               if (whatsappWindow) {
                   contactForm.reset();
+                  submitBtn.disabled = false;
+                  submitBtn.textContent = "Send Message";
               }
           } else {
                 Swal.fire({
@@ -1170,6 +1175,8 @@ if (contactForm) {
                 title: "Server Error",
                 text: "Unable to send your message."
             });
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Send Message";
         }
     });
 }
