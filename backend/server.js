@@ -36,8 +36,8 @@ app.post("/api/contact", async (req, res) => {
           message
         } = req.body;
         await transporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to: process.env.EMAIL_USER,
+            from: process.env.BREVO_USER,
+            to: process.env.BREVO_USER,
             subject: "📩 New Contact Form Submission",
             html: `
             <h2>📩 New Contact Form Submission</h2>
