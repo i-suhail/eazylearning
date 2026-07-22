@@ -48,7 +48,9 @@ const submitCareer = async (req, res) => {
       message: "Application submitted successfully."
     });
   } catch (error) {
+    console.error("CAREER ERROR:");
     console.error(error);
+    console.error(error.stack);
     res.status(500).json({
       success: false,
       message: "Something went wrong."

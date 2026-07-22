@@ -53,11 +53,13 @@ app.post("/api/contact", async (req, res) => {
             success: true,
             message: "Message sent successfully!"
         });
-    } catch (err) {
+    }catch (err) {
+        console.error("CONTACT ERROR:");
         console.error(err);
+        console.error(err.stack);
         res.status(500).json({
             success: false,
-            message: "Failed to send message."
+            message: err.message
         });
     }
 });
