@@ -1,5 +1,6 @@
 const fs = require("fs");
-const transporter = require("../config/mailer"); // Same transporter used in Contact
+const { Resend } = require("resend");
+const resend = new Resend(process.env.RESEND_API_KEY);
 const submitCareer = async (req, res) => {
   try {
     const {
@@ -12,31 +13,29 @@ const submitCareer = async (req, res) => {
       message
     } = req.body;
     const resume = req.file;
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER,
+    const fs = require("fs");
+    await resend.emails.send({
+      from: "onboarding@resend.dev",
+      to: ["eazylearning2026@gmail.com"],
       subject: "📄 New Career Application",
       html: `
         <h2>📄 New Career Application</h2>
-
         <p><strong>Full Name:</strong> ${fullName}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Phone:</strong> ${phone}</p>
         <p><strong>Qualification:</strong> ${qualification}</p>
         <p><strong>Subjects:</strong> ${subjects}</p>
         <p><strong>Address:</strong> ${address}</p>
-
         <hr>
-
         <p><strong>Message:</strong></p>
         <p>${message}</p>
       `,
       attachments: [
         {
           filename: resume.originalname,
-          path: resume.path
-        }
-      ]
+          content: fs.readFileSync(resume.path),
+        },
+      ],
     });
     if (resume) {
       fs.unlink(resume.path, (err) => {
