@@ -1,4 +1,6 @@
 require("dotenv").config();
+const { Resend } = require("resend");
+const resend = new Resend(process.env.RESEND_API_KEY);
 const path = require("path");
 const express = require("express");
 const pool = require("./config/db");
@@ -13,7 +15,6 @@ app.use("/api/admin", adminRoutes);
 app.use("/api", enrollmentRoutes);
 app.use("/api/career", careerRoutes);
 const PORT = process.env.PORT || 5000;
-const transporter = require("./config/mailer");
 app.get("/", (req, res) => {
     res.send("Easy Learning Backend Running 🚀");
 });
@@ -35,9 +36,9 @@ app.post("/api/contact", async (req, res) => {
           email,
           message
         } = req.body;
-        await transporter.sendMail({
-            from: process.env.BREVO_USER,
-            to: process.env.BREVO_USER,
+        await resend.emails.send({
+            from: "onboarding@resend.dev",
+            to: "eazylearning2026@gmail.com", // Your receiving email
             subject: "📩 New Contact Form Submission",
             html: `
             <h2>📩 New Contact Form Submission</h2>
@@ -47,7 +48,7 @@ app.post("/api/contact", async (req, res) => {
             <hr>
             <p><strong>Message:</strong></p>
             <p>${message}</p>
-            `
+            `,
         });
         res.json({
             success: true,

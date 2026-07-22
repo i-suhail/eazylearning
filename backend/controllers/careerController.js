@@ -13,8 +13,8 @@ const submitCareer = async (req, res) => {
     } = req.body;
     const resume = req.file;
     await transporter.sendMail({
-      from: process.env.BREVO_USER,
-      to: process.env.BREVO_USER,
+      from: process.env.EMAIL_USER,
+      to: process.env.EMAIL_USER,
       subject: "📄 New Career Application",
       html: `
         <h2>📄 New Career Application</h2>
