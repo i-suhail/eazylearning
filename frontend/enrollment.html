@@ -121,6 +121,13 @@
                     <option>Home Tution</option>
                   </select>
                 </label>
+                <label id="groupSelector" style="display:none;">Group <small>*</small>
+                  <select id="enrollGroup" name="group">
+                    <option value="">Select Group</option>
+                    <option value="Science">Science</option>
+                    <option value="Commerce">Commerce</option>
+                  </select>
+                </label>
               </div>
 
               <div class="subject-picker" id="subjectPicker">
@@ -132,6 +139,25 @@
                 <label><input type="checkbox" name="subjects" value="Social Science"> <span>Social Science</span></label>
                 <label><input type="checkbox" name="subjects" value="Computer Applications"> <span>Computer Applications</span></label>
                 <label><input type="checkbox" name="subjects" value="Spoken English"> <span>Spoken English</span></label>
+              </div>
+              <!-- Science Subjects (Hidden) -->
+              <div class="subject-picker" id="scienceSubjects" style="display:none;">
+                <p>Choose Science Subjects <small>*</small></p>
+                <label><input type="checkbox" name="subjects" value="Physics"><span>Physics</span></label>
+                <label><input type="checkbox" name="subjects" value="Chemistry"><span>Chemistry</span></label>
+                <label><input type="checkbox" name="subjects" value="Mathematics"><span>Mathematics</span></label>
+                <label><input type="checkbox" name="subjects" value="Biology"><span>Biology</span></label>
+                <label><input type="checkbox" name="subjects" value="Computer Science"><span>Computer-Science</span></label>
+              </div>
+
+              <!-- Commerce Subjects (Hidden) -->
+              <div class="subject-picker" id="commerceSubjects" style="display:none;">
+                <p>Choose Commerce Subjects <small>*</small></p>
+                <label><input type="checkbox" name="subjects" value="Business Studies"><span>Business Studies</span></label>
+                <label><input type="checkbox" name="subjects" value="Accountancy"><span>Accountancy</span></label>
+                <label><input type="checkbox" name="subjects" value="Economics"><span>Economics</span></label>
+                <label><input type="checkbox" name="subjects" value="Mathematics"><span>Mathematics</span></label>
+                <label><input type="checkbox" name="subjects" value="Computer Application"><span>Computer-Application</span></label>
               </div>
 
               <div class="form-grid two-cols">

@@ -224,8 +224,7 @@ h3{
 }
 
 .hero .eyebrow {
-  letter-spacing: 0.05em;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
 }
 
 .eyebrow{
@@ -233,11 +232,11 @@ h3{
   align-items:center;
   gap:8px;
   color:var(--emerald);
-  /* font-family:"Petit Formal Script",sans-serif; */
-  font-family:"Dancing Script",sans-serif;
-  font-size: 1.15rem;
+  font-family:"Nunito",sans-serif;
+  font-size: 1rem;
   font-weight: 800;
-  letter-spacing: .02em;
+  letter-spacing: .05em;
+  /* font-family:"Dancing Script",sans-serif; */
   text-transform:uppercase;
   margin-bottom:14px;
 }
@@ -1071,10 +1070,16 @@ h3{
     width: 50px;
   }
 
+  .hero .eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.03em;
+    font-weight: 800;
+  }
+
   .eyebrow{
     font-size: 0.74rem;
     letter-spacing: 0.03em;
-    font-weight: 600;
+    font-weight: 800;
   }
 }
 

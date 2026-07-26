@@ -16,7 +16,19 @@ careerForm?.addEventListener("submit", async (e) => {
                 icon: "success",
                 title: "Application Submitted!",
                 text: "Your application has been sent successfully.",
-                confirmButtonText: "Send on WhatsApp"
+                confirmButtonText: "Send on WhatsApp",
+
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: true,
+
+                showCancelButton: false,
+
+                didOpen: () => {
+                    const popup = Swal.getPopup();
+                    const closeBtn = popup.querySelector(".swal2-close");
+                    if (closeBtn) closeBtn.style.display = "none";
+                }
             }).then(() => {
                 const msg =
                     `*New Tutor Application*
@@ -25,9 +37,7 @@ careerForm?.addEventListener("submit", async (e) => {
                     📞 Phone: ${formData.get("phone")}
                     🎓 Qualification: ${formData.get("qualification")}
                     📚 Subjects: ${formData.get("subjects")}
-                    📍 Address: ${formData.get("address")}
-                    📝 Message:
-                    ${formData.get("message")}`;
+                    `;
                 window.open(
                     `https://wa.me/919962588807?text=${encodeURIComponent(msg)}`,
                     "_blank"

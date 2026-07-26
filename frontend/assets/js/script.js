@@ -230,10 +230,12 @@ if (demoSubmit) {
   const params = new URLSearchParams(window.location.search);
   let activeStep = 1;
 
+  const subjectPicker = document.getElementById("subjectPicker");
   const fields = {
     class: document.getElementById("enrollClass"),
     curriculum: document.getElementById("enrollCurriculum"),
     mode: document.getElementById("enrollLearningMode"),
+    group: document.getElementById("enrollGroup"),
     subjects: Array.from(form.querySelectorAll('[name="subjects"]'))
   };
 
@@ -255,6 +257,52 @@ if (demoSubmit) {
   setSelectValue(fields.class, params.get("class"));
   setSelectValue(fields.mode, params.get("learningMode"));
 
+  const groupSelector = document.getElementById("groupSelector");
+  const defaultSubjects = document.getElementById("subjectPicker");
+  const scienceSubjects = document.getElementById("scienceSubjects");
+  const commerceSubjects = document.getElementById("commerceSubjects");
+  
+  function toggleGroupSelector() {
+    const selectedClass = fields.class.value;
+    if (selectedClass === "Class 11" || selectedClass === "Class 12") {
+      groupSelector.style.display = "";
+      fields.group.required = true;
+    } else {
+      groupSelector.style.display = "none";
+      fields.group.required = false;
+      fields.group.value = "";
+    }
+  }
+  function toggleSubjectGroups() {
+    const selectedClass = fields.class.value;
+    const selectedGroup = fields.group.value;
+    // Clear every selected subject
+    document.querySelectorAll('input[name="subjects"]').forEach(subject => {
+      subject.checked = false;
+    });
+    // Hide all groups
+    defaultSubjects.style.display = "none";
+    scienceSubjects.style.display = "none";
+    commerceSubjects.style.display = "none";
+    if (selectedClass !== "Class 11" && selectedClass !== "Class 12") {
+      defaultSubjects.style.display = "";
+      return;
+    }
+    if (selectedGroup === "Science") {
+      scienceSubjects.style.display = "";
+    }
+    else if (selectedGroup === "Commerce") {
+      commerceSubjects.style.display = "";
+    }
+    form.dispatchEvent(new Event("change"));
+  }
+  toggleGroupSelector();
+  toggleSubjectGroups();
+  fields.class.addEventListener("change", () => {
+    toggleGroupSelector();
+    toggleSubjectGroups();
+  });
+  fields.group.addEventListener("change", toggleSubjectGroups);
   const selectedSubjects = () => fields.subjects.filter((subject) => subject.checked);
 
   const syncSubjectValidity = () => {
@@ -370,117 +418,6 @@ if (demoSubmit) {
 }());
 
 // Study Materials page filters and pagination
-(function () {
-  const grid = document.getElementById("materialsGrid");
-  if (!grid) return;
-
-  const materials = [
-    ["Quadratic Equations - Complete Notes", "CBSE", "Class 10", "Mathematics", "Notes", 25, 2.4, "10 May 2024"],
-    ["Linear Equations - Practice Worksheets", "CBSE", "Class 8", "Mathematics", "Worksheets", 18, 1.8, "09 May 2024"],
-    ["Science Chapter 5 Question Bank", "CBSE", "Class 9", "Science", "Question Banks", 32, 3.1, "08 May 2024"],
-    ["Class 10 Mathematics Sample Paper 2023-24", "CBSE", "Class 10", "Mathematics", "Sample Papers", 12, 1.2, "06 May 2024"],
-    ["Photosynthesis - Revision Notes", "ICSE", "Class 7", "Science", "Revision Notes", 10, 1.1, "05 May 2024"],
-    ["Maths Formula Sheet - Class 9", "CBSE", "Class 9", "Mathematics", "Formula Sheets", 6, 0.8, "04 May 2024"],
-    ["The National Movement - Detailed Notes", "CBSE", "Class 8", "Social Science", "Notes", 20, 2.0, "03 May 2024"],
-    ["English Grammar Question Bank", "CBSE", "Class 6", "English", "Question Banks", 15, 1.3, "02 May 2024"],
-    ["Physics Motion Worksheet", "IGCSE", "Class 11", "Physics", "Worksheets", 14, 1.5, "28 Apr 2024"],
-    ["Chemistry Bonding Notes", "ICSE", "Class 10", "Chemistry", "Notes", 22, 2.1, "26 Apr 2024"],
-    ["International Maths Practice Set", "International", "Class 7", "Mathematics", "Worksheets", 16, 1.6, "24 Apr 2024"],
-    ["State Board English Sample Paper", "State Board", "Class 12", "English", "Sample Papers", 18, 2.2, "21 Apr 2024"]
-  ].map((item, index) => ({ id: index + 1, title: item[0], curriculum: item[1], className: item[2], subject: item[3], type: item[4], pages: item[5], size: item[6], updated: item[7] }));
-
-  const search = document.getElementById("materialSearch");
-  const searchBtn = document.getElementById("materialSearchBtn");
-  const filters = {
-    curriculum: document.getElementById("filterCurriculum"),
-    className: document.getElementById("filterClass"),
-    subject: document.getElementById("filterSubject"),
-    type: document.getElementById("filterType"),
-    sort: document.getElementById("materialSort")
-  };
-  const pills = document.getElementById("typePills");
-  const count = document.getElementById("materialsCount");
-  const pagination = document.getElementById("materialsPagination");
-  const perPage = 8;
-  let page = 1;
-
-  const colors = {
-    "Notes": "#2F6EEB",
-    "Worksheets": "#43A047",
-    "Question Banks": "#7E55D9",
-    "Sample Papers": "#D98A22",
-    "Revision Notes": "#D957B5",
-    "Formula Sheets": "#1F9BA5"
-  };
-
-  const matches = (material) => {
-    const query = search.value.trim().toLowerCase();
-    return (!query || `${material.title} ${material.subject} ${material.curriculum}`.toLowerCase().includes(query)) &&
-      (filters.curriculum.value === "all" || material.curriculum === filters.curriculum.value) &&
-      (filters.className.value === "all" || material.className === filters.className.value) &&
-      (filters.subject.value === "all" || material.subject === filters.subject.value) &&
-      (filters.type.value === "all" || material.type === filters.type.value);
-  };
-
-  const sorted = (items) => {
-    return [...items].sort((a, b) => {
-      if (filters.sort.value === "title") return a.title.localeCompare(b.title);
-      if (filters.sort.value === "pages") return b.pages - a.pages;
-      if (filters.sort.value === "size") return b.size - a.size;
-      return b.id - a.id;
-    });
-  };
-
-  const render = () => {
-    const filtered = sorted(materials.filter(matches));
-    const pages = Math.max(1, Math.ceil(filtered.length / perPage));
-    page = Math.min(page, pages);
-    const visible = filtered.slice((page - 1) * perPage, page * perPage);
-
-    count.textContent = `Showing ${filtered.length} Results`;
-    grid.innerHTML = visible.map((material) => `
-      <article class="material-card reveal is-visible">
-        <span class="material-badge" style="background:${colors[material.type] || '#163A70'}">${material.type}</span>
-        <div class="material-thumb">PDF</div>
-        <h3>${material.title}</h3>
-        <p>${material.curriculum} material for ${material.className} ${material.subject}.</p>
-        <div class="material-meta"><span>${material.curriculum}</span><span>${material.className}</span><span>${material.subject}</span></div>
-        <div class="material-stats"><span>${material.pages} Pages</span><span>${material.size.toFixed(1)} MB</span></div>
-        <div class="material-updated">Updated: ${material.updated}</div>
-        <div class="material-actions"><a class="btn preview-btn" href="#">Preview</a><a class="btn download-btn" href="#">Download</a></div>
-      </article>
-    `).join("") || '<p class="material-empty">No materials found.</p>';
-
-    pagination.innerHTML = Array.from({ length: pages }, (_, index) => {
-      const number = index + 1;
-      return `<button type="button" class="${number === page ? 'is-active' : ''}" data-page="${number}">${number}</button>`;
-    }).join("");
-  };
-
-  const resetAndRender = () => { page = 1; render(); };
-
-  Object.values(filters).forEach((control) => control.addEventListener("change", resetAndRender));
-  search.addEventListener("input", resetAndRender);
-  searchBtn.addEventListener("click", resetAndRender);
-
-  pills.addEventListener("click", (event) => {
-    const button = event.target.closest("button");
-    if (!button) return;
-    pills.querySelectorAll("button").forEach((item) => item.classList.remove("is-active"));
-    button.classList.add("is-active");
-    filters.type.value = button.dataset.type;
-    resetAndRender();
-  });
-
-  pagination.addEventListener("click", (event) => {
-    const button = event.target.closest("button[data-page]");
-    if (!button) return;
-    page = Number(button.dataset.page);
-    render();
-  });
-
-  render();
-}());
 
 // Student dashboard announcement expander
 (function () {
@@ -671,7 +608,7 @@ if (enrollmentForm) {
       class: enrollmentForm.class.value,
       curriculum: enrollmentForm.curriculum.value,
       learning_mode: enrollmentForm.learningMode.value,
-
+      group: enrollmentForm.group.value,
       subjects: subjects,
 
       message: enrollmentForm.message.value,
@@ -710,6 +647,7 @@ if (enrollmentForm) {
        Class : ${enrollmentData.class}
        Curriculum : ${enrollmentData.curriculum}
        Learning Mode : ${enrollmentData.learning_mode}
+       ${(enrollmentData.class === "Class 11" || enrollmentData.class === "Class 12") ? `Group : ${enrollmentData.group}` : ""}
        Subjects : ${enrollmentData.subjects.join(", ")}
 
        *Message*
